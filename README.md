@@ -18,7 +18,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-This app's services have been written with a TDD approach. This app's components are lightly (instantiation only).
+This app's services have been written with a TDD approach. This app's components are lightly unit-tested (instantiation only).
 
 ## To-Do List (if more time):
 
