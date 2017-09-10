@@ -18,8 +18,11 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+This app's services have been written with a TDD approach. This app's components are lightly (instantiation only).
+
 ## To-Do List (if more time):
 
 - more intelligent spinner (currently ignores real loading time, hardcoded to 1 second)
 - more responsive styling in general (add breakpoints)
 - write a new feature : photo previewer - to open a modal when images are clicked on from the table
+- write proper unit tests for `image-viewer.component.ts`
