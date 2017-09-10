@@ -7,7 +7,7 @@ import { PhotosResponse, PhotoResponse } from './models';
 @Injectable()
 export class ImageViewerService {
 
-  private endpointUrl = '';
+  private endpointUrl = 'http://jsonplaceholder.typicode.com/photos';
 
   constructor(private http: Http) { }
 

@@ -1,0 +1,13 @@
+#imageGalleryLoadingOverlay {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    #centredLoadingBox {
+        flex-grow: 0;
+        height: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
