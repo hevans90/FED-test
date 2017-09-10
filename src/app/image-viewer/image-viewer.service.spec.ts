@@ -3,7 +3,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import { ImageViewerService } from './image-viewer.service';
 import { Observable } from 'rxjs/Observable';
-import { PhotosResponse, PhotoResponse } from './models';
+import { Photo } from './models';
 
 // tslint:disable:no-shadowed-variable
 
@@ -81,12 +81,12 @@ describe('ImageViewerService', () => {
       status: 200
     });
 
-    service.getPhotos().subscribe((res: PhotosResponse) => {
-      expect(res.Photos.length).toEqual(3);
-      expect(res.Photos[0].albumId).toEqual(1);
-      expect(res.Photos[0].id).toEqual(1);
-      expect(res.Photos[0].url).toEqual('http://url1');
-      expect(res.Photos[0].thumbnailUrl).toEqual('http://thumburl1');
+    service.getPhotos().subscribe((res: Photo[]) => {
+      expect(res.length).toEqual(3);
+      expect(res[0].albumId).toEqual(1);
+      expect(res[0].id).toEqual(1);
+      expect(res[0].url).toEqual('http://url1');
+      expect(res[0].thumbnailUrl).toEqual('http://thumburl1');
     });
   });
 });

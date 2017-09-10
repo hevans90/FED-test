@@ -25,16 +25,12 @@ export class ImageGalleryComponent implements OnInit, AfterViewChecked {
 
   // client-side properties
   loadedImages: Photo[];
-  currentImageChunk: Photo[];
 
   ngOnInit() {
-
     this.imageViewerService.getPhotos().subscribe(res => {
-      this.loadedImages = res.Photos;
+      this.loadedImages = res;
       this.dataSource = new PhotoDataSource(this.loadedImages, this.paginator);
-      this.loadingImages = false;
     });
-
   }
 
   ngAfterViewChecked(): void {
@@ -56,7 +52,6 @@ export class PhotoDataSource extends DataSource<any> {
   }
 
   connect(): Observable<Photo[]> {
-
     const displayDataChanges = [
       this.dataChange,
       this._paginator.page,
@@ -69,16 +64,6 @@ export class PhotoDataSource extends DataSource<any> {
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       return data.splice(startIndex, this._paginator.pageSize);
     });
-
-    // const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-
-    // return Observable.of(this._photos.splice(startIndex, this._paginator.pageSize));
-
-
-    // // return new Observable<Photo[]>((resolve) => {
-    // //   resolve.next(this._photos.splice(startIndex, this._paginator.pageSize));
-    // //   resolve.complete();
-    // // });
   }
 
   disconnect() { }

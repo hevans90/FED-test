@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BaseRequestOptions, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import { ImageGalleryComponent } from './image-gallery.component';
 import { MaterialManifestModule } from '../../material-manifest/material-manifest.module';
@@ -12,7 +13,7 @@ describe('ImageGalleryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ImageGalleryComponent],
-      imports: [MaterialManifestModule],
+      imports: [MaterialManifestModule, BrowserAnimationsModule],
       providers: [
         ImageViewerService,
         BaseRequestOptions,
