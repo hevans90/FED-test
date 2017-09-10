@@ -1,8 +1,8 @@
 export interface PhotosResponse {
-    Photos: Array<PhotoResponse>;
+    Photos: Array<Photo>;
 }
 
-export interface PhotoResponse {
+export interface Photo {
     albumId: number;
     id: number;
     title: string;
