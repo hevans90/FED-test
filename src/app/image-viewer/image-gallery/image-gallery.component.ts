@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { ImageViewerService } from '../image-viewer.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Photo } from '../models';
@@ -6,6 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/fromEvent';
 import { MdPaginator } from '@angular/material';
 
 @Component({
@@ -18,19 +21,29 @@ export class ImageGalleryComponent implements OnInit, AfterViewChecked {
   constructor(private imageViewerService: ImageViewerService) { }
 
   // md-table properties
-  displayedColumns = ['id', 'thumb', 'title'];
+  displayedColumns = ['thumb', 'title'];
   dataSource: PhotoDataSource;
-  loadingImages = true;
   @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild('filter') filter: ElementRef;
 
-  // client-side properties
+  // component specific properties
   loadedImages: Photo[];
+  loadingImages = true;
+
 
   ngOnInit() {
     this.imageViewerService.getPhotos().subscribe(res => {
       this.loadedImages = res;
       this.dataSource = new PhotoDataSource(this.loadedImages, this.paginator);
     });
+
+    Observable.fromEvent(this.filter.nativeElement, 'keyup')
+      .debounceTime(150)
+      .distinctUntilChanged()
+      .subscribe(() => {
+        if (!this.dataSource) { return; }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -38,14 +51,19 @@ export class ImageGalleryComponent implements OnInit, AfterViewChecked {
   }
 
   onPage(val: number) {
-    this.dataSource.dataChange.next(val);
+    this.dataSource.pageChange.next(val);
   }
 }
 
 export class PhotoDataSource extends DataSource<any> {
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
 
-  dataChange: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  // pagination Subject
+  pageChange: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  // filtration Subject
+  _filterChange = new BehaviorSubject('');
+  get filter(): string { return this._filterChange.value; }
+  set filter(filter: string) { this._filterChange.next(filter); }
 
   constructor(private _photos: Photo[], private _paginator: MdPaginator) {
     super();
@@ -53,12 +71,19 @@ export class PhotoDataSource extends DataSource<any> {
 
   connect(): Observable<Photo[]> {
     const displayDataChanges = [
-      this.dataChange,
+      this.pageChange,
+      this._filterChange,
       this._paginator.page,
     ];
 
     return Observable.merge(...displayDataChanges).map(() => {
-      const data = this._photos.slice();
+      let data: Photo[] = this._photos.slice(); // paramaterless call returns new copy of object
+
+      data = data.filter((photo: Photo) => {
+        return photo.title.indexOf(this.filter.toLowerCase()) !== -1;
+      });
+
+      this._paginator.length = data.length;
 
       // Grab the page's slice of data.
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;

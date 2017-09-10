@@ -54,30 +54,28 @@ describe('ImageViewerService', () => {
   it('#getPhotos should return an Observable of type PhotoResponse', () => {
 
     setupConnections(backend, {
-      body: {
-        Photos: [
-          {
-            albumId: 1,
-            id: 1,
-            title: 'title 1',
-            url: 'http://url1',
-            thumbnailUrl: 'http://thumburl1'
-          },
-          {
-            albumId: 1,
-            id: 2,
-            title: 'title 2',
-            url: 'http://url2',
-            thumbnailUrl: 'http://thumburl2'
-          },
-          {
-            albumId: 1,
-            id: 3,
-            title: 'title 3',
-            url: 'http://url3',
-            thumbnailUrl: 'http://thumburl3'
-          }]
-      },
+      body: [
+        {
+          albumId: 1,
+          id: 1,
+          title: 'title 1',
+          url: 'http://url1',
+          thumbnailUrl: 'http://thumburl1'
+        },
+        {
+          albumId: 1,
+          id: 2,
+          title: 'title 2',
+          url: 'http://url2',
+          thumbnailUrl: 'http://thumburl2'
+        },
+        {
+          albumId: 1,
+          id: 3,
+          title: 'title 3',
+          url: 'http://url3',
+          thumbnailUrl: 'http://thumburl3'
+        }],
       status: 200
     });
 
