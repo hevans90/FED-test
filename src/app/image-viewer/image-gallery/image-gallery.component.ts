@@ -84,6 +84,12 @@ export class PhotoDataSource extends DataSource<any> {
       });
 
       this._paginator.length = data.length;
+      if (this.filter.length) {
+        // this._paginator.pageIndex = 0;
+      }
+      if (this._paginator.length / (this._paginator.pageIndex * this._paginator.pageSize) < 1) {
+        this._paginator.pageIndex = 0;
+      }
 
       // Grab the page's slice of data.
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
