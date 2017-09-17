@@ -1,4 +1,4 @@
-# @andrea - will be making changes this evening - come back tomorrow :)
+# @andrea - 17.09.17 (11.30am) - pagination/filtering in combination should be more intelligent & reset page index to 0 if necessary - see latest commits for the change
 
 # FEDTest
 
