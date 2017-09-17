@@ -84,10 +84,9 @@ export class PhotoDataSource extends DataSource<any> {
       });
 
       this._paginator.length = data.length;
-      if (this.filter.length) {
-        // this._paginator.pageIndex = 0;
-      }
+
       if (this._paginator.length / (this._paginator.pageIndex * this._paginator.pageSize) < 1) {
+        // if the current page is beyond the total data length, reset it (i.e. for combinations of paging & filtering)
         this._paginator.pageIndex = 0;
       }
 
